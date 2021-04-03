@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="500px" height="500px" viewBox="0 0 500 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>favicon-round</title>
+    <g id="favicon-round" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Oval" fill="#9A2E22" cx="250" cy="250" r="250"></circle>
+        <text id="IP" font-family="Inter-Black, Inter" font-size="280" font-weight="700" letter-spacing="11.6666667" fill="#FFFFFF">
+            <tspan x="127.691288" y="352">IP</tspan>
+        </text>
+    </g>
+</svg>

@@ -1,0 +1,173 @@
+import React from 'react'
+import { graphql } from 'gatsby'
+import { Link } from 'gatsby'
+import classNames from 'classnames'
+
+import Layout from '../components/layout'
+import SEO from '../components/seo'
+import FeedPreview from '../components/previews/feedPreview'
+
+export default function feedList({ data, location, pageContext }) {
+  // const { mdx } = data
+  // const body = mdx.body
+  // const meta = mdx.frontmatter
+  // const keywordsString = meta.keywords.join(', ')
+  // const coverPath = getSrc(meta.cover)
+
+  // Pagination
+  const { currentPage, feedNumPages } = pageContext
+  const isFirst = currentPage === 1
+  const isLast = currentPage === feedNumPages
+  const prevPage = currentPage - 1 === 1 ? '' : (currentPage - 1).toString()
+  const nextPage = (currentPage + 1).toString()
+
+  // Posts
+  const allPosts = data.feed.edges
+  const posts = allPosts.map(({ node }) => {
+    var notesMdx
+    var imageData
+    var imageUrl
+
+    if (node.data.meta_image) {
+      if (node.data.meta_image.localFiles[0].childImageSharp) {
+        imageData =
+          node.data.meta_image.localFiles[0].childImageSharp.gatsbyImageData
+      } else if (node.data.meta_image.localFiles[0].publicURL) {
+        imageUrl = node.data.meta_image.localFiles[0].publicURL
+      }
+    }
+
+    if (node.data.notes) {
+      notesMdx = node.data.notes.childrenMdx[0].body
+    }
+    return (
+      <FeedPreview
+        key={node.data.slug}
+        title={node.data.title}
+        category={node.data.category}
+        url={node.data.url}
+        domain={node.data.domain}
+        permalink={`/feed/${node.data.slug}`}
+        permalink_url={node.data.permalink}
+        permalink_truncated={node.data.permalink_truncated}
+        created={node.data.created}
+        coverImageData={imageData}
+        coverImageUrl={imageUrl}
+        notesMdx={notesMdx}
+      />
+    )
+  })
+
+  return (
+    <Layout location={location}>
+      <SEO
+        title={`Feed ${currentPage} of ${feedNumPages} `}
+        // description={`${meta.headline}`}
+        // keywords={`project, ${keywordsString}`}
+        // previewUrl={coverPath}
+      />
+
+      <section className="max-w-lg mx-auto">
+        <div>{posts}</div>
+
+        {/* PAGINATION */}
+        <div className="pagination">
+          <div className="grid grid-cols-2 gap-4 lg:gap-12">
+            {/* previous */}
+            <div className="previous text-right">
+              {!isFirst && (
+                <Link
+                  to={`/feed/${prevPage}`}
+                  rel="prev"
+                  className="no-underline"
+                >
+                  ← Newer posts
+                </Link>
+              )}
+            </div>
+            {/* next */}
+            <div className="next">
+              {!isLast && (
+                <Link
+                  to={`/feed/${nextPage}`}
+                  rel="next"
+                  className="no-underline"
+                >
+                  Older posts →
+                </Link>
+              )}
+            </div>
+          </div>
+
+          {/* numbers */}
+          <div className="numbering text-center mt-8">
+            {Array.from({ length: feedNumPages }, (_, i) => (
+              <Link
+                key={`pagination-number${i + 1}`}
+                to={`/feed/${i === 0 ? '' : i + 1}`}
+                className={classNames('number mx-1 no-underline p-1', {
+                  'bg-gray-100 text-gray-800 cursor-default hover:text-gray-800 dark:bg-gray-700 dark:text-gray-100':
+                    i + 1 === currentPage,
+                })}
+                title={`Go to page ${i + 1}`}
+              >
+                {i + 1}
+              </Link>
+            ))}
+          </div>
+        </div>
+        {/* END PAGINATION */}
+      </section>
+    </Layout>
+  )
+}
+
+export const pageQuery = graphql`
+  query($skip: Int!, $limit: Int!) {
+    feed: allAirtable(
+      filter: { table: { eq: "feed" } }
+      sort: { fields: data___created, order: DESC }
+      limit: $limit
+      skip: $skip
+    ) {
+      edges {
+        node {
+          id
+          data {
+            title
+            category
+            url
+            slug
+            permalink
+            permalink_truncated
+            created(fromNow: true)
+            domain
+            meta_image {
+              localFiles {
+                publicURL
+                childImageSharp {
+                  gatsbyImageData(
+                    width: 640
+                    layout: CONSTRAINED
+                    placeholder: BLURRED
+                  )
+                }
+              }
+            }
+            notes {
+              childrenMdx {
+                body
+              }
+            }
+            tags {
+              data {
+                name
+                slug
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
