@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'gatsby'
+import { FiRss } from 'react-icons/fi'
 
 const Footer = () => {
   return (
@@ -15,7 +17,16 @@ const Footer = () => {
         </div>
       </section>
 
-      <section className="max-w-lg mx-auto mt-20 text-sm text-gray-600 text-center dark:text-gray-300">
+      <section className="max-w-lg mx-auto mt-20 text-sm text-gray-500 text-center dark:text-gray-300">
+        <div className="mb-8">
+          <Link
+            to="/feed.xml"
+            className=" text-orange-600 text-lg inline-flex items-center no-underline"
+          >
+            <FiRss className="mr-2 text-xl" /> Subscribe via RSS
+          </Link>
+        </div>
+
         <p>
           All the content belongs to their respective authors. We don't take
           ownership of any of the information presented here. All the commentary
