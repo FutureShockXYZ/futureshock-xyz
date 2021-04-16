@@ -5,8 +5,11 @@ require('dotenv').config({
 module.exports = {
   pathPrefix: '/',
   siteMetadata: {
-    title: 'Future shock',
-    description: '......',
+    title: `Future Shock`,
+    titleTemplate: `%s | Future Shock`,
+    description: 'Critical Thinking for an Exponential World',
+    image: '/cover.png',
+    keywords: 'Futurism, Forecasting, Critical Futures',
     author: '@futureshock_xyz',
     siteUrl: `https://futureshock.xyz`,
   },
@@ -18,7 +21,18 @@ module.exports = {
     `gatsby-plugin-robots-txt`,
     `gatsby-plugin-dark-mode`,
     `gatsby-plugin-image`,
-    // `gatsby-plugin-feed-mdx`,
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Future Shock`,
+        short_name: `futureshock`,
+        start_url: `/`,
+        background_color: `#9a2e22`,
+        theme_color: `#9a2e22`,
+        display: `minimal-ui`,
+        icon: `src/images/favicon.svg`, // This path is relative to the root of the site.
+      },
+    },
     {
       resolve: `gatsby-plugin-sitemap`,
       options: {
@@ -92,34 +106,7 @@ module.exports = {
               quality: 85,
             },
           },
-          // {
-          //   resolve: `@raae/gatsby-remark-oembed`,
-          //   options: {
-          //     usePrefix: ['embed', 'video', 'oembed'],
-          //     providers: {
-          //       include: ['Twitter', 'SpeakerDeck', 'Vimeo', 'YouTube'],
-          //       settings: {
-          //         // Ex. Show all Twitter embeds with the dark theme
-          //         // Twitter: { theme: 'dark' },
-          //         // Ex. Hide all Instagram comments by default
-          //         // Instagram: { hidecaption: true },
-          //       },
-          //     },
-          //   },
-          // },
         ],
-      },
-    },
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: `Future Shock`,
-        short_name: `futureshock`,
-        start_url: `/`,
-        background_color: `#9a2e22`,
-        theme_color: `#9a2e22`,
-        display: `minimal-ui`,
-        icon: `src/images/favicon.svg`, // This path is relative to the root of the site.
       },
     },
     {
@@ -132,16 +119,6 @@ module.exports = {
     },
     {
       resolve: 'gatsby-plugin-postcss',
-      // options: {
-      //   postCssPlugins: [
-      //     require(`postcss-import`),
-      //     require(`postcss-preset-env`)({
-      //       stage: 1,
-      //       importFrom: './src/css/core/variables.css',
-      //     }),
-      //     require(`cssnano`),
-      //   ],
-      // },
     },
     {
       resolve: `gatsby-source-airtable`,
@@ -153,7 +130,11 @@ module.exports = {
             tableName: `feed`,
             tableView: `published`,
             queryName: `feed`,
-            mapping: { notes: `text/markdown`, meta_image: `fileNode` },
+            mapping: {
+              notes: `text/markdown`,
+              meta_image: `fileNode`,
+              image_cover: `fileNode`,
+            },
             tableLinks: [`tags`],
           },
           {
@@ -162,6 +143,75 @@ module.exports = {
             tableView: `sorted`,
             queryName: `tagsFeed`,
             tableLinks: [`feed`],
+          },
+        ],
+      },
+    },
+    {
+      resolve: `gatsby-plugin-feed`,
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+                site_url: siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { allAirtable } }) => {
+              return allAirtable.edges.map((edge) => {
+                const item = edge.node.data
+
+                var itemExcerpt
+                var itemHtml
+
+                if (item.notes) {
+                  itemExcerpt = item.notes.childrenMdx[0].excerpt
+                  itemHtml = item.notes.childrenMdx[0].html
+                }
+
+                return Object.assign({}, item, {
+                  title: item.title,
+                  description: itemExcerpt,
+                  date: item.created,
+                  url: item.permalink,
+                  guid: item.permalink,
+                  custom_elements: [{ 'content:encoded': itemHtml }],
+                })
+              })
+            },
+            query: `
+              {
+                allAirtable(
+                  filter: { table: { eq: "feed" } }
+                  sort: { fields: data___created, order: DESC }
+                ) {
+                  edges {
+                    node {
+                      data {
+                        title
+                        permalink
+                        created
+                        notes {
+                          childrenMdx {
+                            excerpt
+                            html
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+            output: '/rss.xml',
+            title: 'Future Shock — RSS Feed',
           },
         ],
       },

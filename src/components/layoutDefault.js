@@ -19,9 +19,10 @@ const LayoutDefault = ({ children, pageContext, location }) => {
 
   return (
     <Layout location={location}>
+      {/* eslint-disable-next-line react/jsx-pascal-case */}
       <SEO title={title} description={description} keywords={keywords} />
-      <section className="container">
-        <article className="content-column">{children}</article>
+      <section className="max-w-lg mx-auto">
+        <article>{children}</article>
       </section>
     </Layout>
   )

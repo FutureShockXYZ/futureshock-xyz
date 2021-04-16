@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'gatsby'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { GatsbyImage } from 'gatsby-plugin-image'
 import { FiLink } from 'react-icons/fi'
@@ -54,6 +53,7 @@ class FeedPreview extends React.Component {
     const {
       title,
       url,
+      featured,
       category,
       permalink_url,
       permalink_truncated,
@@ -68,38 +68,18 @@ class FeedPreview extends React.Component {
     var bodyHeight = this.state.bodySize.height
     const bodyMaxHeight = 280
 
-    var bodyClassnames = classNames('feed-body post', {
+    var bodyClassnames = classNames('feed-body post px-6', {
       'hidden-content': bodyHeight > bodyMaxHeight && isExpanded === false,
     })
 
     return (
-      <article className="mb-24 pb-6 border-b">
-        <header>
-          <div className="grid grid-cols-2 mb-2 text-xs font-medium text-gray-500  dark:text-gray-400">
-            {/* domain */}
-            <div>
-              <a
-                href={url}
-                target="_blank"
-                rel="noreferrer"
-                title={`Read ‘${title}’ on ${domain}`}
-                className="no-underline inline-flex items-center text-gray-500  dark:text-gray-400"
-              >
-                <img
-                  src={`https://api.faviconkit.com/${domain}/32`}
-                  alt={domain}
-                  className="inline-block w-3 mr-1 opacity-70"
-                />
-                <span>{domain}</span>
-              </a>
-            </div>
-
-            {/* time */}
-            <div className="text-right">
-              <time>{created}</time>
-            </div>
-          </div>
-
+      <article
+        className={`feed-item mb-28 border-gray-200 bg-gray-50 rounded dark:bg-gray-800 ${
+          featured && `featured`
+        }`}
+      >
+        {/* media */}
+        <div className="rounded-t overflow-hidden">
           {category === 'post' && coverImageData && (
             <div className="transition-opacity hover:opacity-80">
               <a
@@ -138,6 +118,34 @@ class FeedPreview extends React.Component {
               />
             </div>
           )}
+        </div>
+
+        {/* meta */}
+        <header className="mt-2 px-6">
+          <div className="grid grid-cols-2 mb-2 text-xs font-medium text-gray-500  dark:text-gray-400">
+            {/* domain */}
+            <div>
+              <a
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                title={`Read ‘${title}’ on ${domain}`}
+                className="no-underline inline-flex items-center text-gray-500  dark:text-gray-400"
+              >
+                <img
+                  src={`https://api.faviconkit.com/${domain}/32`}
+                  alt={domain}
+                  className="inline-block w-3 mr-1 opacity-70"
+                />
+                <span>{domain}</span>
+              </a>
+            </div>
+
+            {/* time */}
+            <div className="text-right">
+              <time>{created}</time>
+            </div>
+          </div>
 
           <h2 className="mt-3 mb-2">
             <a
@@ -161,10 +169,10 @@ class FeedPreview extends React.Component {
           {notesMdx && <MDXRenderer>{notesMdx}</MDXRenderer>}
           {!isExpanded && (
             <div className="show-more">
-              <div className="show-more-button bg-white dark:bg-gray-900">
+              <div className="show-more-button bg-gray-50 dark:bg-gray-800">
                 <button
                   onClick={this.showMore.bind(this)}
-                  className="uppercase underline text-sm text-gray-800 font-semibold tracking-wide dark:text-gray-100"
+                  className="uppercase underline text-sm text-gray-800 font-semibold tracking-wide dark:text-gray-100 "
                 >
                   Show more
                 </button>
@@ -174,7 +182,7 @@ class FeedPreview extends React.Component {
         </div>
 
         {category === 'tweet' && oembedHtml && (
-          <div className="obembed-wrapper mt-2">
+          <div className="obembed-wrapper px-6 mt-4">
             {/* <div dangerouslySetInnerHTML={{ __html: oembedHtml }} /> */}
             <EmbedContainer markup={oembedHtml}>
               <div dangerouslySetInnerHTML={{ __html: oembedHtml }} />
@@ -183,14 +191,14 @@ class FeedPreview extends React.Component {
         )}
 
         {/* footer */}
-        <footer className="text-xs text-center mt-8">
+        <footer className="text-xs mt-8 pb-6 px-6">
           <CopyToClipboard
             text={permalink_url}
             onCopy={() => this.setState({ copied: true })}
           >
             <div
               title="Copy permalink to clipboard"
-              className="mx-auto inline-flex items-center text-gray-500 no-underline cursor-pointer bg-gray-100 px-1 py-1 rounded-sm hover:bg-gray-200 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+              className="mx-auto inline-flex items-center text-gray-500 no-underline cursor-pointer bg-gray-50 px-1 py-1 rounded-sm hover:bg-gray-200 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
             >
               <FiLink className="mr-1" />
               <span>{permalink_truncated}</span>

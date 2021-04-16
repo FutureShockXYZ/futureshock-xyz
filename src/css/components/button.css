@@ -1,0 +1,9 @@
+@layer components {
+  .btn {
+    @apply inline-block px-2 py-2 bg-red-800 text-white rounded-sm tracking-wide text-sm cursor-pointer transition-all leading-none hover:bg-red-900;
+  }
+
+  .btn.btn-small {
+    @apply px-2 py-1 text-xs;
+  }
+}

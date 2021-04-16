@@ -6,11 +6,11 @@ import '../css/styles.css'
 
 const Layout = ({ children, location }) => {
   return (
-    <>
+    <div>
       <Header />
       <main>{children}</main>
       <Footer />
-    </>
+    </div>
   )
 }
 

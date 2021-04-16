@@ -1,0 +1,8 @@
+@layer components {
+  .header {
+    background: linear-gradient(180deg, #fff 90%, transparent);
+  }
+  .dark .header {
+    background: linear-gradient(180deg, theme(colors.gray.900) 90%, transparent);
+  }
+}

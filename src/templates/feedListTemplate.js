@@ -8,14 +8,9 @@ import SEO from '../components/seo'
 import FeedPreview from '../components/previews/feedPreview'
 
 export default function feedList({ data, location, pageContext }) {
-  // const { mdx } = data
-  // const body = mdx.body
-  // const meta = mdx.frontmatter
-  // const keywordsString = meta.keywords.join(', ')
-  // const coverPath = getSrc(meta.cover)
-
   // Pagination
   const { currentPage, feedNumPages } = pageContext
+
   const isFirst = currentPage === 1
   const isLast = currentPage === feedNumPages
   const prevPage = currentPage - 1 === 1 ? '' : (currentPage - 1).toString()
@@ -24,35 +19,51 @@ export default function feedList({ data, location, pageContext }) {
   // Posts
   const allPosts = data.feed.edges
   const posts = allPosts.map(({ node }) => {
+    const item = node.data
     var notesMdx
     var imageData
     var imageUrl
+    var itemUrl
+    var itemSocialCoverUrl
 
-    if (node.data.meta_image) {
-      if (node.data.meta_image.localFiles[0].childImageSharp) {
+    if (item.meta_image) {
+      if (item.meta_image.localFiles[0].childImageSharp) {
         imageData =
-          node.data.meta_image.localFiles[0].childImageSharp.gatsbyImageData
-      } else if (node.data.meta_image.localFiles[0].publicURL) {
-        imageUrl = node.data.meta_image.localFiles[0].publicURL
+          item.meta_image.localFiles[0].childImageSharp.gatsbyImageData
+      } else if (item.meta_image.localFiles[0].publicURL) {
+        imageUrl = item.meta_image.localFiles[0].publicURL
       }
     }
 
-    if (node.data.notes) {
-      notesMdx = node.data.notes.childrenMdx[0].body
+    if (item.notes) {
+      notesMdx = item.notes.childrenMdx[0].body
     }
+
+    if (item.bitly) {
+      itemUrl = item.bitly
+    } else {
+      itemUrl = item.url
+    }
+
+    if (item.image_cover) {
+      itemSocialCoverUrl = item.image_cover.localFiles[0].publicURL
+    }
+
     return (
       <FeedPreview
-        key={node.data.slug}
-        title={node.data.title}
-        category={node.data.category}
-        url={node.data.url}
-        domain={node.data.domain}
-        permalink={`/feed/${node.data.slug}`}
-        permalink_url={node.data.permalink}
-        permalink_truncated={node.data.permalink_truncated}
-        created={node.data.created}
+        key={item.slug}
+        title={item.title}
+        category={item.category}
+        url={itemUrl}
+        featured={item.featured}
+        domain={item.domain}
+        permalink={`/feed/${item.slug}`}
+        permalink_url={item.permalink}
+        permalink_truncated={item.permalink_truncated}
+        created={item.created}
         coverImageData={imageData}
         coverImageUrl={imageUrl}
+        socialCoverUrl={itemSocialCoverUrl}
         notesMdx={notesMdx}
       />
     )
@@ -60,13 +71,8 @@ export default function feedList({ data, location, pageContext }) {
 
   return (
     <Layout location={location}>
-      <SEO
-        title={`Feed ${currentPage} of ${feedNumPages} `}
-        // description={`${meta.headline}`}
-        // keywords={`project, ${keywordsString}`}
-        // previewUrl={coverPath}
-      />
-
+      {/* eslint-disable-next-line react/jsx-pascal-case */}
+      <SEO title={!isFirst && `${currentPage} of ${feedNumPages}`} />
       <section className="max-w-lg mx-auto">
         <div>{posts}</div>
 
@@ -137,11 +143,13 @@ export const pageQuery = graphql`
             title
             category
             url
+            featured
             slug
             permalink
             permalink_truncated
             created(fromNow: true)
             domain
+            bitly
             meta_image {
               localFiles {
                 publicURL

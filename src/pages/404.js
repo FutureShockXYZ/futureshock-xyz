@@ -4,6 +4,7 @@ import SEO from '../components/seo.js'
 
 const NotFoundPage = ({ location }) => (
   <Layout location={location}>
+    {/* eslint-disable-next-line react/jsx-pascal-case */}
     <SEO title="404" />
     <section className="container">
       <article className="content-column">

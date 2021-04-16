@@ -1,35 +1,38 @@
-.feed-body {
-  position: relative;
-}
+@layer components {
+  .feed-body {
+    position: relative;
+  }
 
-.feed-body.hidden-content {
-  max-height: 280px;
-  overflow: hidden;
-}
+  .feed-body.hidden-content {
+    max-height: 280px;
+    overflow: hidden;
+  }
 
-.feed-body .show-more {
-  display: none;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  text-align: center;
-}
+  .feed-body .show-more {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    text-align: center;
+  }
 
-.feed-body .show-more:before {
-  display: block;
-  content: '';
-  height: 140px;
-  z-index: 100;
-  z-index: 100;
-  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-}
+  .feed-body .show-more:before {
+    display: block;
+    content: '';
+    height: 140px;
+    z-index: 100;
+    z-index: 100;
+    background: linear-gradient(180deg, transparent 0%, theme(colors.gray.50) 100%);
+  }
 
-.dark .feed-body .show-more:before {
-  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(17, 24, 39, 1) 100%);
-}
+  .dark .feed-body .show-more:before {
+    background: linear-gradient(180deg, transparent 0%, theme(colors.gray.800) 100%);
+  }
 
-.feed-body.hidden-content .show-more {
-  display: block;
+  .feed-body.hidden-content .show-more {
+    display: block;
+  }
+
 }

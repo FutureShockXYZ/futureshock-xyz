@@ -1,13 +1,13 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  purge: ['./src/**/*.{js,jsx,ts,tsx}'],
+  mode: 'jit',
+  purge: ['./src/**/**/**/*.{js,jsx,ts,tsx}'],
   darkMode: 'class',
   theme: {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-
       black: colors.black,
       white: colors.white,
       gray: colors.coolGray,
@@ -18,6 +18,7 @@ module.exports = {
       indigo: colors.indigo,
       purple: colors.violet,
       pink: colors.pink,
+      orange: colors.orange,
     },
     fontFamily: {
       sans: [
@@ -49,7 +50,9 @@ module.exports = {
     extend: {},
   },
   variants: {
-    extend: {},
+    extend: {
+      margin: ['last'],
+    },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 }

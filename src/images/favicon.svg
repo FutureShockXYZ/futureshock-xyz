@@ -1,10 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="500px" height="500px" viewBox="0 0 500 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>favicon-round</title>
-    <g id="favicon-round" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <circle id="Oval" fill="#9A2E22" cx="250" cy="250" r="250"></circle>
-        <text id="IP" font-family="Inter-Black, Inter" font-size="280" font-weight="700" letter-spacing="11.6666667" fill="#FFFFFF">
-            <tspan x="127.691288" y="352">IP</tspan>
-        </text>
-    </g>
+<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="120.5" cy="120.5" r="114.5" fill="white"/>
+<path d="M55.3864 158H72.608V124.352H105.739V110.153H72.608V90.7443H109.318V76.5455H55.3864V158Z" fill="black"/>
+<path d="M169.57 99.9716H186.075C185.837 85.4545 173.905 75.4318 155.768 75.4318C137.91 75.4318 124.825 85.2955 124.905 100.091C124.865 112.102 133.337 118.983 147.098 122.284L155.967 124.511C164.837 126.659 169.768 129.205 169.808 134.693C169.768 140.659 164.121 144.716 155.371 144.716C146.422 144.716 139.979 140.58 139.422 132.426H122.757C123.195 150.045 135.803 159.153 155.57 159.153C175.456 159.153 187.149 149.648 187.189 134.733C187.149 121.17 176.928 113.972 162.768 110.79L155.45 109.04C148.371 107.409 142.445 104.784 142.564 98.9375C142.564 93.6875 147.217 89.8295 155.649 89.8295C163.882 89.8295 168.933 93.5682 169.57 99.9716Z" fill="#9B2C2C"/>
 </svg>
