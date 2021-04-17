@@ -24,11 +24,11 @@
     height: 140px;
     z-index: 100;
     z-index: 100;
-    background: linear-gradient(180deg, transparent 0%, theme(colors.gray.50) 100%);
+    background: linear-gradient(180deg, rgba(249, 250, 251, 0) 0%, theme(colors.gray.50) 100%);
   }
 
   .dark .feed-body .show-more:before {
-    background: linear-gradient(180deg, transparent 0%, theme(colors.gray.800) 100%);
+    background: linear-gradient(180deg, rgba(31, 41, 55, 0) 0%, theme(colors.gray.800) 100%);
   }
 
   .feed-body.hidden-content .show-more {

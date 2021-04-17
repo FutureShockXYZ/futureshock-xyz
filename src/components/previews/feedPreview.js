@@ -5,7 +5,9 @@ import { FiLink } from 'react-icons/fi'
 import classNames from 'classnames'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import ReactPlayer from 'react-player/lazy'
-import EmbedContainer from 'react-oembed-container'
+import { TwitterTweetEmbed } from 'react-twitter-embed'
+
+import { getTweetId } from '../../utils/utils'
 
 class FeedPreview extends React.Component {
   constructor(props) {
@@ -15,20 +17,6 @@ class FeedPreview extends React.Component {
       bodySize: {},
       isExpanded: false,
       permalinkCopied: false,
-      oembedHtml: null,
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.category === 'tweet') {
-      fetch(
-        `https://noembed.com/embed?url=${encodeURIComponent(this.props.url)}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          this.setState({ oembedHtml: data.html })
-        })
-        .catch(console.log)
     }
   }
 
@@ -53,6 +41,7 @@ class FeedPreview extends React.Component {
     const {
       title,
       url,
+      sourceUrl,
       featured,
       category,
       permalink_url,
@@ -64,7 +53,7 @@ class FeedPreview extends React.Component {
       notesMdx,
     } = this.props
 
-    var { isExpanded, oembedHtml } = this.state
+    var { isExpanded } = this.state
     var bodyHeight = this.state.bodySize.height
     const bodyMaxHeight = 280
 
@@ -88,7 +77,11 @@ class FeedPreview extends React.Component {
                 rel="noreferrer"
                 title={`Read ‘${title}’ on ${domain}`}
               >
-                <GatsbyImage image={coverImageData} alt={title} />
+                <GatsbyImage
+                  image={coverImageData}
+                  alt={title}
+                  className="rounded-t"
+                />
               </a>
             </div>
           )}
@@ -181,12 +174,9 @@ class FeedPreview extends React.Component {
           )}
         </div>
 
-        {category === 'tweet' && oembedHtml && (
-          <div className="obembed-wrapper px-6 mt-4">
-            {/* <div dangerouslySetInnerHTML={{ __html: oembedHtml }} /> */}
-            <EmbedContainer markup={oembedHtml}>
-              <div dangerouslySetInnerHTML={{ __html: oembedHtml }} />
-            </EmbedContainer>
+        {category === 'tweet' && (
+          <div className="px-6 mt-4">
+            <TwitterTweetEmbed tweetId={getTweetId(sourceUrl)} />
           </div>
         )}
 

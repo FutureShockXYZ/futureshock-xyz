@@ -77,6 +77,7 @@ module.exports = {
         defaultLayouts: {
           default: require.resolve('./src/components/layoutDefault.js'),
         },
+        remarkPlugins: [require('remark-images')],
         gatsbyRemarkPlugins: [
           `gatsby-remark-smartypants`,
           `gatsby-remark-embed-video`,

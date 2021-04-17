@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
+import { FiInfo } from 'react-icons/fi'
 import ThemeToggle from './themeToggle'
 
 const isPartiallyActive = ({ isPartiallyCurrent }) => {
@@ -8,16 +9,18 @@ const isPartiallyActive = ({ isPartiallyCurrent }) => {
     : { className: '' } // normal
 }
 
-const navItemClasses = 'mr-8 inline-block last:mr-0'
+const navItemClasses = 'inline-block mr-4 lg:mr-8 last:mr-0'
 
 const Header = () => {
   return (
     <header className="header pt-2 pb-4 mb-8 sticky top-0 z-10 grid grid-cols-8 items-center lg:px-8 lg:grid-cols-3 lg:pt-3 lg:pb-6">
-      <div className="col-span-1 lg:col-span-1">
+      {/* theme toggle */}
+      <div className="mt-1 col-span-1 lg:mt-0 lg:col-span-1">
         <ThemeToggle />
       </div>
 
-      <div className="text-center col-span-5 lg:col-span-1">
+      {/* logo */}
+      <div className="text-left col-span-4 lg:text-center lg:col-span-1">
         <h1 className="text-base">
           <Link
             to="/"
@@ -32,11 +35,17 @@ const Header = () => {
         </h1>
       </div>
 
-      <nav className="col-span-2 text-right lg:col-span-1">
+      {/* nav */}
+      <nav className="col-span-3 text-right lg:col-span-1">
         <ul>
-          <li className={`${navItemClasses} hidden lg:inline-block`}>
-            <Link to="/about" getProps={isPartiallyActive}>
-              About
+          <li className={`${navItemClasses}`}>
+            <Link
+              to="/about"
+              title="About the site"
+              getProps={isPartiallyActive}
+              className="inline-flex items-center"
+            >
+              <FiInfo className="inline-block text-xl" />
             </Link>
           </li>
           <li className={`${navItemClasses}`}>

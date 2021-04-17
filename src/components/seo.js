@@ -28,7 +28,7 @@ const SEO = ({ title, description, image, keywords, article, lang }) => {
   return (
     <Helmet
       title={seo.title}
-      titleTemplate={seo.title !== defaultTitle && titleTemplate}
+      titleTemplate={pathname !== '/' ? titleTemplate : defaultTitle}
       defaultTitle={defaultTitle}
       htmlAttributes={{
         lang,

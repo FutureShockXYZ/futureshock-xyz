@@ -76,6 +76,8 @@
     "react-oembed-container": "^1.0.0",
     "react-player": "^2.9.0",
     "react-svg": "^13.0.1",
+    "react-twitter-embed": "^3.0.3",
+    "remark-images": "^2.0.0",
     "remark-mark": "^0.0.0",
     "smooth-scroll": "^16.1.3",
     "svg-inline-react": "^3.2.0",

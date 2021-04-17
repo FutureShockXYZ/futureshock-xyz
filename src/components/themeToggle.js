@@ -4,7 +4,7 @@ import IconSun from '../images/icons/sun.svg'
 import IconMoon from '../images/icons/moon.svg'
 
 const ThemeToggle = () => {
-  const iconClassnames = 'w-5 text-gray-600 dark:text-gray-200'
+  const iconClassnames = 'w-4 lg:w-5 text-gray-600 dark:text-gray-200'
 
   return (
     <ThemeToggler>

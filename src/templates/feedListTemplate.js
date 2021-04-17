@@ -55,6 +55,7 @@ export default function feedList({ data, location, pageContext }) {
         title={item.title}
         category={item.category}
         url={itemUrl}
+        sourceUrl={item.url}
         featured={item.featured}
         domain={item.domain}
         permalink={`/feed/${item.slug}`}
@@ -72,7 +73,8 @@ export default function feedList({ data, location, pageContext }) {
   return (
     <Layout location={location}>
       {/* eslint-disable-next-line react/jsx-pascal-case */}
-      <SEO title={!isFirst && `${currentPage} of ${feedNumPages}`} />
+      <SEO title={!isFirst ? `${currentPage} of ${feedNumPages}` : ''} />
+
       <section className="max-w-lg mx-auto">
         <div>{posts}</div>
 
