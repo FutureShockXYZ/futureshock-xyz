@@ -5,9 +5,7 @@ import { FiLink } from 'react-icons/fi'
 import classNames from 'classnames'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import ReactPlayer from 'react-player/lazy'
-import { TwitterTweetEmbed } from 'react-twitter-embed'
-
-import { getTweetId } from '../../utils/utils'
+import EmbedContainer from 'react-oembed-container'
 
 class FeedPreview extends React.Component {
   constructor(props) {
@@ -17,6 +15,22 @@ class FeedPreview extends React.Component {
       bodySize: {},
       isExpanded: false,
       permalinkCopied: false,
+      oembedHtml: null,
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.category === 'tweet') {
+      fetch(
+        `https://noembed.com/embed?url=${encodeURIComponent(
+          this.props.sourceUrl
+        )}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          this.setState({ oembedHtml: data.html })
+        })
+        .catch(console.log)
     }
   }
 
@@ -53,7 +67,7 @@ class FeedPreview extends React.Component {
       notesMdx,
     } = this.props
 
-    var { isExpanded } = this.state
+    var { isExpanded, oembedHtml } = this.state
     var bodyHeight = this.state.bodySize.height
     const bodyMaxHeight = 280
 
@@ -63,12 +77,13 @@ class FeedPreview extends React.Component {
 
     return (
       <article
-        className={`feed-item mb-28 border-gray-200 bg-gray-50 rounded dark:bg-gray-800 ${
-          featured && `featured`
-        }`}
+        className={`feed-item mb-28 border-gray-200 bg-gray-50 rounded dark:bg-gray-800`}
       >
         {/* media */}
         <div className="rounded-t overflow-hidden">
+          {featured && <div className="bg-yellow-200">FEATURED</div>}
+
+          {/* type:post */}
           {category === 'post' && coverImageData && (
             <div className="transition-opacity hover:opacity-80">
               <a
@@ -86,6 +101,7 @@ class FeedPreview extends React.Component {
             </div>
           )}
 
+          {/* type:post with unsupported image formats */}
           {category === 'post' && !coverImageData && coverImageUrl && (
             <div className="transition-opacity hover:opacity-80">
               <a
@@ -99,10 +115,11 @@ class FeedPreview extends React.Component {
             </div>
           )}
 
+          {/* type:video */}
           {category === 'video' && (
             <div className="player-wrapper">
               <ReactPlayer
-                url={url}
+                url={sourceUrl}
                 controls={true}
                 width="100%"
                 height="100%"
@@ -146,7 +163,9 @@ class FeedPreview extends React.Component {
               target="_blank"
               rel="noreferrer"
               title={`Read ‘${title}’ on ${domain}`}
-              className="no-underline inherit-color"
+              className={`no-underline inherit-color  ${
+                featured && `bg-yellow-200`
+              }`}
             >
               {title}
             </a>
@@ -174,9 +193,11 @@ class FeedPreview extends React.Component {
           )}
         </div>
 
-        {category === 'tweet' && (
+        {category === 'tweet' && oembedHtml && (
           <div className="px-6 mt-4">
-            <TwitterTweetEmbed tweetId={getTweetId(sourceUrl)} />
+            <EmbedContainer markup={oembedHtml}>
+              <div dangerouslySetInnerHTML={{ __html: oembedHtml }} />
+            </EmbedContainer>
           </div>
         )}
 
@@ -188,16 +209,17 @@ class FeedPreview extends React.Component {
           >
             <div
               title="Copy permalink to clipboard"
-              className="mx-auto inline-flex items-center text-gray-500 no-underline cursor-pointer bg-gray-50 px-1 py-1 rounded-sm hover:bg-gray-200 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+              className="mx-auto inline-flex items-center text-gray-500 no-underline cursor-pointer bg-gray-100 px-2 py-1 rounded-sm hover:bg-gray-200 dark:text-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600"
             >
               <FiLink className="mr-1" />
-              <span>{permalink_truncated}</span>
+              <span>Copy permalink</span>
             </div>
           </CopyToClipboard>
 
           {this.state.copied ? (
             <div class="mt-1 font-medium text-green-700 dark:text-green-300">
-              Permalink copied
+              <span className="italic font-normal">{permalink_truncated}</span>{' '}
+              copied to clipboard
             </div>
           ) : null}
         </footer>
