@@ -71,7 +71,7 @@ class FeedPreview extends React.Component {
     var bodyHeight = this.state.bodySize.height
     const bodyMaxHeight = 280
 
-    var bodyClassnames = classNames('feed-body post px-6', {
+    var bodyClassnames = classNames('feed-body post mt-4 px-4 lg:px-6', {
       'hidden-content': bodyHeight > bodyMaxHeight && isExpanded === false,
     })
 
@@ -131,8 +131,12 @@ class FeedPreview extends React.Component {
         </div>
 
         {/* meta */}
-        <header className="mt-2 px-6">
-          <div className="grid grid-cols-2 mb-2 text-xs font-medium text-gray-500  dark:text-gray-400">
+        <header className="mt-2 px-4 lg:px-6">
+          <div
+            className={`grid grid-cols-2 mb-2 text-xs font-medium text-gray-500  dark:text-gray-400 ${
+              category === 'tweet' && 'mt-4'
+            }`}
+          >
             {/* domain */}
             <div>
               <a
@@ -157,19 +161,21 @@ class FeedPreview extends React.Component {
             </div>
           </div>
 
-          <h2 className="mt-3 mb-2">
-            <a
-              href={url}
-              target="_blank"
-              rel="noreferrer"
-              title={`Read ‘${title}’ on ${domain}`}
-              className={`no-underline inherit-color  ${
-                featured && `bg-yellow-200`
-              }`}
-            >
-              {title}
-            </a>
-          </h2>
+          {category !== 'tweet' && (
+            <h2 className="mt-3 mb-2">
+              <a
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                title={`Read ‘${title}’ on ${domain}`}
+                className={`no-underline inherit-color  ${
+                  featured && `bg-yellow-200`
+                }`}
+              >
+                {title}
+              </a>
+            </h2>
+          )}
         </header>
 
         {/* body */}
@@ -194,7 +200,7 @@ class FeedPreview extends React.Component {
         </div>
 
         {category === 'tweet' && oembedHtml && (
-          <div className="px-6 mt-4">
+          <div className="px-4 lg:px-6 mt-4">
             <EmbedContainer markup={oembedHtml}>
               <div dangerouslySetInnerHTML={{ __html: oembedHtml }} />
             </EmbedContainer>

@@ -2,20 +2,12 @@ import React from 'react'
 import { Link } from 'gatsby'
 import { FiRss } from 'react-icons/fi'
 
+import Newsletter from '../components/newsletter'
+
 const Footer = () => {
   return (
     <footer className="mt-24 pb-12">
-      <section id="subscribe" className="text-center max-w-xl mx-auto">
-        <div className="py-6 px-4 bg-gray-900 text-white rounded-md dark:bg-gray-100 dark:text-gray-800">
-          <h2 className="inherit-color">See the future clearly</h2>
-          <p className="mt-2">
-            Our mission is to deliver the insights you need to see the future
-            more clearly. We’re here to help you understand complex problems,
-            identify emerging patterns and ultimately make better decisions
-            today.
-          </p>
-        </div>
-      </section>
+      <Newsletter />
 
       <section className="max-w-lg mx-auto mt-20 text-sm text-gray-500 text-center dark:text-gray-300">
         <div className="mb-8">

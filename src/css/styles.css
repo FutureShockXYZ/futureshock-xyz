@@ -15,6 +15,9 @@
 @import './components/feed.css';
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
   body {
     @apply px-3 bg-white text-gray-900 transition-all font-sans lg:px-0;
@@ -41,6 +44,10 @@
 
   li p {
     margin: 0;
+  }
+
+  blockquote {
+    @apply border-l-4 border-gray-200 pl-2 italic text-gray-700 dark:border-gray-700 dark:text-gray-300;
   }
 
   .post ul {
