@@ -13,7 +13,7 @@ const navItemClasses = 'inline-block mr-4 lg:mr-8 last:mr-0'
 
 const Header = () => {
   return (
-    <header className="header pt-2 pb-4 mb-8 sticky top-0 z-10 grid grid-cols-8 items-center lg:px-8 lg:grid-cols-3 lg:pt-3 lg:pb-6">
+    <header className="header pt-2 pb-4 mb-8 sticky top-0 z-20 grid grid-cols-8 items-center lg:px-8 lg:grid-cols-3 lg:pt-3 lg:pb-6">
       {/* theme toggle */}
       <div className="mt-1 col-span-1 lg:mt-0 lg:col-span-1">
         <ThemeToggle />

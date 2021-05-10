@@ -80,8 +80,12 @@ class FeedPreview extends React.Component {
         className={`feed-item mb-28 border-gray-200 bg-gray-50 rounded dark:bg-gray-800`}
       >
         {/* media */}
-        <div className="rounded-t overflow-hidden">
-          {featured && <div className="bg-yellow-200">FEATURED</div>}
+        <div className="rounded-t overflow-hidden relative">
+          {featured && (
+            <div className="bg-red-800 text-white rounded-lg px-2 py-1 text-xs uppercase font-semibold shadow leading-none z-10 absolute right-2 top-2">
+              Featured
+            </div>
+          )}
 
           {/* type:post */}
           {category === 'post' && coverImageData && (
